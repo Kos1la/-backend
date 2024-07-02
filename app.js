@@ -9,7 +9,7 @@ const { Client } = pkg
 
 // Подключение к базе данных
 const client = new Client({
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.DATABASE_URL || "postgresql://postgres:root@localhost:5432/kos1la"
 });
 
 const createTableQuery = `
@@ -32,7 +32,7 @@ async function fetchAndStoreCharacters() {
         // Запрос для вставки данных в таблицу characters
         const queryText = 'INSERT INTO characters (id, name, data) VALUES($1, $2, $3) ON CONFLICT (id) DO NOTHING';
 
-        // Создаем массив промисов для выполнения запросов на вставку данных
+        // Создаем массив  для выполнения запросов на вставку данных
         const promises = characters.map(character => {
             const { id, name, status, species, gender, origin, location, image } = character;
             const data = { id, name, status, species, gender, origin: origin.name, location: location.name, image };
